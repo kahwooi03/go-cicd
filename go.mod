@@ -1,0 +1,3 @@
+module go-cicd
+
+go 1.25.6
