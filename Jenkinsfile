@@ -14,7 +14,18 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'go test ./...'
+                sh '''
+                    # Initialize module if needed
+                    if [ ! -f "go.mod" ]; then
+                        go mod init go-cicd
+                    fi
+                    
+                    # Tidy dependencies
+                    go mod tidy
+                    
+                    # Run tests with verbose output
+                    go test -v ./... -timeout 30s
+                '''
             }
         }
 
